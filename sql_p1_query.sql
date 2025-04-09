@@ -1,4 +1,4 @@
--- SQL Retail Sales Analysis - P1
+-- SQL Analysis Retail Sales  - P1
 -- create Database
 CREATE DATABASE p1_retail_sales_db;
 use p1_retail_sales_db;
@@ -103,6 +103,8 @@ SELECT DISTINCT category FROM retail_sales;
 -- Q.8 Write a SQL query to find the top 5 customers based on the highest total sales 
 -- Q.9 Write a SQL query to find the number of unique customers who purchased items from each category.
 -- Q.10 Write a SQL query to create each shift and number of orders (Example Morning <=12, Afternoon Between 12 & 17, Evening >17)
+-- Q.11 Which day of the week generates the most revenue?
+-- Q.12 write a sql query to find Which age group contributes the most to sales?
 
 -- Q.1 Write a SQL query to retrieve all columns for sales made on '2022-11-05
 select * 
@@ -178,5 +180,26 @@ SELECT
     COUNT(*) as total_orders    
 FROM hourly_sale
 GROUP BY shift;
+
+-- Q.11 Which day of the week generates the most revenue?
+SELECT 
+    DAYNAME(sale_date) AS weekday,
+    SUM(total_sale) AS total_revenue
+FROM retail_sales
+GROUP BY weekday
+ORDER BY total_revenue DESC;
+-- Q.12 write a sql query to find Which age group contributes the most to sales?
+SELECT 
+    CASE 
+        WHEN age < 20 THEN 'Under 20'
+        WHEN age BETWEEN 20 AND 29 THEN '20s'
+        WHEN age BETWEEN 30 AND 39 THEN '30s'
+        WHEN age BETWEEN 40 AND 49 THEN '40s'
+        ELSE '50+'
+    END AS age_group,
+    SUM(total_sale) AS total_revenue
+FROM retail_sales
+GROUP BY age_group
+ORDER BY total_revenue DESC;
 
 -- End of project
